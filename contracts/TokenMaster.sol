@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -57,22 +58,26 @@ contract TokenMaster is ERC721 {
     }
 
     function mint(uint256 _id, uint256 _seat) public payable {
-        // Require that _id is not 0 or less than total occasions
+        // Require that _id is not 0 or less than total occasions...
         require(_id != 0);
         require(_id <= totalOccasions);
 
-        // Require that ETH sent is greater than cost
+        // Require that ETH sent is greater than cost...
         require(msg.value >= occasions[_id].cost);
 
-        // Require that the seat is not taken and tha seat exits
+        // Require that the seat is not taken, and the seat exists...
         require(seatTaken[_id][_seat] == address(0));
         require(_seat <= occasions[_id].maxTickets);
 
-        occasions[_id].tickets -= 1; // Update ticket count
-        hasBought[_id][msg.sender] = true; // Update buying status
-        seatTaken[_id][_seat] = msg.sender; // Assign seat
-        seatsTaken[_id].push(_seat); // Update seats currently taken
+        occasions[_id].tickets -= 1; // <-- Update ticket count
+
+        hasBought[_id][msg.sender] = true; // <-- Update buying status
+        seatTaken[_id][_seat] = msg.sender; // <-- Assign seat
+
+        seatsTaken[_id].push(_seat); // <-- Update seats currently taken
+
         totalSupply++;
+
         _safeMint(msg.sender, totalSupply);
     }
 
