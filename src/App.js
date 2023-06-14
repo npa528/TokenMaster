@@ -33,11 +33,14 @@ function App() {
       TokenMaster,
       provider
     );
+
     setTokenMaster(tokenMaster);
 
     console.log(tokenMaster);
 
-    const totalOccasions = null; //await tokenMaster.totalOccasions();
+    const totalOccasions = await tokenMaster.totalOccasions();
+    // console.log({ totalOccasions: totalOccasions.toStrings() });
+
     const occasions = [];
 
     for (var i = 1; i <= totalOccasions; i++) {
@@ -47,6 +50,7 @@ function App() {
 
     setOccasions(occasions);
 
+    // Refresh account
     window.ethereum.on("accountsChanged", async () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
